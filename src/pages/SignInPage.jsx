@@ -59,6 +59,10 @@ export default function SignInPage() {
         <button className="secondary-btn" onClick={() => navigate("/register")}>
           New Registration
         </button>
+        {/* PWA Install Button */}
+        <button className="install-btn" style={{ display: 'none' }}>
+          Install App
+        </button>
       </div>
     </div>
   );
