@@ -5,21 +5,22 @@ export function setupPWAInstallPrompt() {
     e.preventDefault();
     deferredPrompt = e;
 
-    const shouldAutoPrompt = new URLSearchParams(window.location.search).get("install") === "1";
+    const installParam = new URLSearchParams(window.location.search).get("install");
+    const installBtn = document.querySelector(".install-btn");
 
-    if (shouldAutoPrompt) {
-      deferredPrompt.prompt();
+    // Show install banner if redirected with ?install=1
+    if (installParam === "1" && installBtn) {
+      installBtn.style.display = "block";
     }
 
-    const installBtn = document.querySelector(".install-btn");
-    if (installBtn) installBtn.style.display = "block";
-
     installBtn?.addEventListener("click", () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        console.log(choiceResult.outcome);
-        deferredPrompt = null;
-      });
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choice) => {
+          console.log(`User response: ${choice.outcome}`);
+          deferredPrompt = null;
+        });
+      }
     });
   });
 }
